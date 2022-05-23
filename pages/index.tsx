@@ -60,6 +60,10 @@ export default function Home() {
     }, 1000);
   }
 
+  function addTime(): void {
+    setTimer((time) => time + 10);
+  }
+
   useEffect(() => {
     if (timer === 0) {
       // If question not answered within time limit
@@ -125,6 +129,7 @@ export default function Home() {
               <Question
                 handleSubmit={handleSubmit}
                 question={questions[questionIndex]}
+                addTime={addTime}
               />
             ) : null}
           </>
@@ -158,7 +163,7 @@ export default function Home() {
       </main>
 
       <footer className='py-8 mt-auto text-center border-t-2 border-gray-300'>
-        <a href='https://moltzer.netlify.app/' target='_blank'>
+        <a href='https://moltzer.netlify.app/' target='_blank' rel='noreferrer'>
           Developed by Fiilp Moltzer
         </a>
       </footer>
