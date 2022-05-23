@@ -44,6 +44,10 @@ export default function Home() {
   useEffect(() => {
     if (timer === 0) {
       nextQuestion();
+      setTotalScore((prevState) => ({
+        ...prevState,
+        ['unanswered']: totalScore.unanswered + 1,
+      }));
     }
   }, [timer]);
 
@@ -57,13 +61,18 @@ export default function Home() {
     getQuestions().then(() => {
       setPlay(true);
       startTimer();
+      setTotalScore({
+        correct: 0,
+        incorrect: 0,
+        unanswered: 0,
+      });
     });
   }
 
   function nextQuestion() {
     if (questionIndex < 9) {
       resetTimer();
-      //setQuestionIndex((questionIndex) => questionIndex + 1);
+      // setQuestionIndex((questionIndex) => questionIndex + 1);
     } else {
       // Reset game and display summary
     }
