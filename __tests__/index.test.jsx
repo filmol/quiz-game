@@ -11,18 +11,19 @@ describe('Home', () => {
     const heading = screen.getByRole('heading', {
       name: 'Welcome to Trivia',
     });
-
     expect(heading).toBeInTheDocument();
   });
 
   it('Renders the Play button', () => {
     render(<Home />);
+
     const addButton = screen.getByTestId('playBtn');
     expect(addButton).toBeInTheDocument();
   });
 
   it('Timer renders after game have started', async () => {
     render(<Home />);
+
     await act(async () => {
       const addButton = screen.getByTestId('playBtn');
       addButton.click();
@@ -32,20 +33,27 @@ describe('Home', () => {
 });
 
 describe('Question Component', () => {
-  it('Lifeline buttons renders after first question is presented', () => {
+  it('Renders the main question and options container ', () => {
     render(<Question />);
-    expect(screen.getByTestId('addSecondsBtn')).toBeInTheDocument();
-    expect(screen.getByTestId('removeHalfBtn')).toBeInTheDocument();
+
+    expect(screen.getByTestId('mainQuestion')).toBeInTheDocument();
+    expect(screen.getByTestId('optionsContainer')).toBeInTheDocument();
   });
 
-  it('Lifeline buttons disables after click ', async () => {
+  it('Lifeline buttons renders and are disabled after click ', async () => {
     render(<Question />);
+
+    let addSecondsBtn = screen.getByTestId('addSecondsBtn');
+    let removeHalfBtn = screen.getByTestId('removeHalfBtn');
+    expect(addSecondsBtn).toBeInTheDocument();
+    expect(removeHalfBtn).toBeInTheDocument();
+
     await act(async () => {
-      // Events that update states
-      screen.getByTestId('removeHalfBtn').click();
-      screen.getByTestId('addSecondsBtn').click();
+      addSecondsBtn.click();
+      removeHalfBtn.click();
     });
-    expect(screen.getByTestId('removeHalfBtn')).toBeDisabled();
-    expect(screen.getByTestId('addSecondsBtn')).toBeDisabled();
+
+    expect(addSecondsBtn).toBeDisabled();
+    expect(removeHalfBtn).toBeDisabled();
   });
 });

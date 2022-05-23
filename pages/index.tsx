@@ -4,27 +4,6 @@ import { fetchQuestions } from '../api/triviaApi';
 import Question from '../components/question';
 import { QuestionObject, ReducerAction, ScoreObject } from '../interfaces/main';
 
-function scoreReducer(state: ScoreObject, action: ReducerAction) {
-  // Handles the total score state
-  switch (action.type) {
-    case 'correct':
-      return { ...state, correct: state.correct + 1 };
-    case 'incorrect':
-      return { ...state, incorrect: state.incorrect + 1 };
-    case 'unanswered':
-      return { ...state, unanswered: state.unanswered + 1 };
-    case 'reset':
-      return {
-        ...state,
-        correct: 0,
-        incorrect: 0,
-        unanswered: 0,
-      };
-    default:
-      throw new Error();
-  }
-}
-
 export default function Home() {
   const [play, setPlay] = useState<boolean>(false);
   const [showSummary, setshowSummary] = useState<boolean>(false);
@@ -71,10 +50,7 @@ export default function Home() {
 
   function startGame(): void {
     async function getQuestions() {
-      // // Fetch 10 random questions from the API
-      // let res = await fetchQuestions();
-      // setQuestions(res);
-
+      // Fetch 10 random questions from the API
       try {
         let res = await fetchQuestions();
         setQuestions(res);
@@ -165,4 +141,25 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+function scoreReducer(state: ScoreObject, action: ReducerAction) {
+  // Total score handler
+  switch (action.type) {
+    case 'correct':
+      return { ...state, correct: state.correct + 1 };
+    case 'incorrect':
+      return { ...state, incorrect: state.incorrect + 1 };
+    case 'unanswered':
+      return { ...state, unanswered: state.unanswered + 1 };
+    case 'reset':
+      return {
+        ...state,
+        correct: 0,
+        incorrect: 0,
+        unanswered: 0,
+      };
+    default:
+      throw new Error();
+  }
 }

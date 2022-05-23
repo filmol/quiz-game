@@ -44,9 +44,11 @@ export default function Question(props: QuestionProps) {
   return (
     <div className='my-8 space-y-4 '>
       <div className='min-h-[500px] lg:min-h-[420px] relative'>
-        <h2 className='text-xl font-bold h-14'>{question}</h2>
+        <h2 data-testid='mainQuestion' className='text-xl font-bold h-14'>
+          {question}
+        </h2>
 
-        <div className='space-y-4'>
+        <div className='space-y-4' data-testid='optionsContainer'>
           {options &&
             options.map((option: any, idx: number) => {
               return (
