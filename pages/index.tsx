@@ -29,8 +29,22 @@ export default function Home() {
     unanswered: 0,
   });
 
+  function addScore(isCorrect: boolean): void {
+    // Update the corresponding totalScore object key
+    isCorrect
+      ? setTotalScore((prevState) => ({
+          ...prevState,
+          ['correct']: totalScore.correct + 1,
+        }))
+      : setTotalScore((prevState) => ({
+          ...prevState,
+          ['incorrect']: totalScore.incorrect + 1,
+        }));
+  }
+
   function handleSubmit(result: boolean): void {
     // Update totalScore and triggers nextQuestion
+    addScore(result);
     nextQuestion();
   }
 
