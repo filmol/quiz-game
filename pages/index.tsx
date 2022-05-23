@@ -71,9 +71,16 @@ export default function Home() {
 
   function startGame(): void {
     async function getQuestions() {
-      // Fetch 10 random questions from the API
-      let res = await fetchQuestions();
-      setQuestions(res);
+      // // Fetch 10 random questions from the API
+      // let res = await fetchQuestions();
+      // setQuestions(res);
+
+      try {
+        let res = await fetchQuestions();
+        setQuestions(res);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     getQuestions().then(() => {
@@ -126,6 +133,7 @@ export default function Home() {
           <div className='content-center mt-24'>
             <h1 className='my-4 text-3xl border-bold'>Welcome to Trivia</h1>
             <button
+              data-testid='playBtn'
               className='block px-8 py-2 mx-auto text-gray-100 rounded-lg bg-cyan-800 hover:scale-105 duration-50'
               onClick={() => startGame()}
             >
