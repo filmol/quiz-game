@@ -29,6 +29,12 @@ export default function Home() {
     unanswered: 0,
   });
 
+  const resetTimer = () => {
+    clearInterval(timerRef.current);
+    setTimer(15);
+    startTimer();
+  };
+
   function startTimer() {
     timerRef.current = setInterval(() => {
       setTimer((time) => time - 1);
@@ -55,7 +61,12 @@ export default function Home() {
   }
 
   function nextQuestion() {
-    // Reset Timer and if not last q, show next question.
+    if (questionIndex < 9) {
+      resetTimer();
+      //setQuestionIndex((questionIndex) => questionIndex + 1);
+    } else {
+      // Reset game and display summary
+    }
   }
 
   return (
