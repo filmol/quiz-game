@@ -1,19 +1,28 @@
 import Head from 'next/head';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { fetchQuestions } from '../api/triviaApi';
 import Question from '../components/question';
-interface ScoreObject {
-  correct: number;
-  incorrect: number;
-  unanswered: number;
-}
-interface QuestionObject {
-  category: string;
-  correct_answer: string;
-  difficulty: string;
-  incorrect_answers: string[];
-  question: string;
-  type: string;
+import { QuestionObject, ReducerAction, ScoreObject } from '../interfaces/main';
+
+function scoreReducer(state: ScoreObject, action: ReducerAction) {
+  // Handles the total score state
+  switch (action.type) {
+    case 'correct':
+      return { ...state, correct: state.correct + 1 };
+    case 'incorrect':
+      return { ...state, incorrect: state.incorrect + 1 };
+    case 'unanswered':
+      return { ...state, unanswered: state.unanswered + 1 };
+    case 'reset':
+      return {
+        ...state,
+        correct: 0,
+        incorrect: 0,
+        unanswered: 0,
+      };
+    default:
+      throw new Error();
+  }
 }
 
 export default function Home() {
@@ -23,28 +32,15 @@ export default function Home() {
   const [questions, setQuestions] = useState<QuestionObject[] | null>(null);
   const [timer, setTimer] = useState<number>(15);
   const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
-  const [totalScore, setTotalScore] = useState<ScoreObject>({
+  const [state, dispatch] = useReducer(scoreReducer, {
     correct: 0,
     incorrect: 0,
     unanswered: 0,
   });
 
-  function addScore(isCorrect: boolean): void {
-    // Update the corresponding totalScore object key
-    isCorrect
-      ? setTotalScore((prevState) => ({
-          ...prevState,
-          ['correct']: totalScore.correct + 1,
-        }))
-      : setTotalScore((prevState) => ({
-          ...prevState,
-          ['incorrect']: totalScore.incorrect + 1,
-        }));
-  }
-
-  function handleSubmit(result: boolean): void {
-    // Update totalScore and triggers nextQuestion
-    addScore(result);
+  function handleSubmit(result: string): void {
+    // Update total score and triggers nextQuestion
+    dispatch({ type: result });
     nextQuestion();
   }
 
@@ -67,12 +63,9 @@ export default function Home() {
   useEffect(() => {
     if (timer === 0) {
       // If question not answered within time limit
-      // Add to "unanswered" score and trigger nextQuestion
+      // Update total "unanswered" score and trigger nextQuestion
       nextQuestion();
-      setTotalScore((prevState) => ({
-        ...prevState,
-        ['unanswered']: totalScore.unanswered + 1,
-      }));
+      dispatch({ type: 'unanswered' });
     }
   }, [timer]);
 
@@ -87,11 +80,7 @@ export default function Home() {
       // Display game layout, start timer and reset total score to 0
       setPlay(true);
       startTimer();
-      setTotalScore({
-        correct: 0,
-        incorrect: 0,
-        unanswered: 0,
-      });
+      dispatch({ type: 'reset' });
     });
   }
 
@@ -145,16 +134,15 @@ export default function Home() {
             {showSummary ? (
               <ul className='max-w-md p-12 mx-auto mt-16 space-y-4 text-lg text-gray-800 bg-gray-200 rounded-md'>
                 <li>
-                  Correct:{' '}
-                  <span className='font-bold'>{totalScore.correct}</span>
+                  Correct: <span className='font-bold'>{state.correct}</span>
                 </li>
                 <li>
                   Incorrect:{' '}
-                  <span className='font-bold'>{totalScore.incorrect}</span>
+                  <span className='font-bold'>{state.incorrect}</span>
                 </li>
                 <li>
                   Unanswered:{' '}
-                  <span className='font-bold'>{totalScore.unanswered}</span>
+                  <span className='font-bold'>{state.unanswered}</span>
                 </li>
               </ul>
             ) : null}

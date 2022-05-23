@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { QuestionProps } from '../interfaces/main';
 
-export default function Question(props: any) {
+export default function Question(props: QuestionProps) {
   let incorrect = props.question.incorrect_answers;
   const [options, setOptions] = useState<string[]>(['']);
 
@@ -20,12 +21,11 @@ export default function Question(props: any) {
   function removeHalf(): void {
     // Randomly removes 2 of the incorrect anwers
     disableButton('removeHalfBtn');
-    const idx1 = Math.floor(Math.random() * 3);
-    incorrect.splice(idx1, 1);
-    const idx2 = Math.floor(Math.random() * 2);
-    incorrect.splice(idx2, 1);
+    incorrect.splice(Math.floor(Math.random() * 3), 1);
+    incorrect.splice(Math.floor(Math.random() * 2), 1);
     mergeArray();
   }
+
   function addTenSeconds(): void {
     // Adds 10s extra to the timer and
     disableButton('addSecondsBtn');
@@ -50,7 +50,11 @@ export default function Question(props: any) {
               <button
                 key={option}
                 onClick={() =>
-                  props.handleSubmit(option == props.question.correct_answer)
+                  props.handleSubmit(
+                    option == props.question.correct_answer
+                      ? 'correct'
+                      : 'incorrect'
+                  )
                 }
                 className='rounded-md my-4 mx-auto block form-check-label min-w-[200px] text-gray-100 hover:font-bold hover:text-gray-800 hover:shadow-2xl  py-4 px-4 bg-gray-800 hover:scale-105 hover:bg-gray-400 cursor-pointer duration-150'
               >
