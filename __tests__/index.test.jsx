@@ -30,3 +30,22 @@ describe('Home', () => {
     expect(screen.getByTestId('timer')).toBeInTheDocument();
   });
 });
+
+describe('Question Component', () => {
+  it('Lifeline buttons renders after first question is presented', () => {
+    render(<Question />);
+    expect(screen.getByTestId('addSecondsBtn')).toBeInTheDocument();
+    expect(screen.getByTestId('removeHalfBtn')).toBeInTheDocument();
+  });
+
+  it('Lifeline buttons disables after click ', async () => {
+    render(<Question />);
+    await act(async () => {
+      // Events that update states
+      screen.getByTestId('removeHalfBtn').click();
+      screen.getByTestId('addSecondsBtn').click();
+    });
+    expect(screen.getByTestId('removeHalfBtn')).toBeDisabled();
+    expect(screen.getByTestId('addSecondsBtn')).toBeDisabled();
+  });
+});
