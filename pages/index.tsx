@@ -115,7 +115,7 @@ export default function Home() {
       <main className='content-center max-w-screen-md min-h-screen mx-auto mt-16 text-center'>
         {play ? (
           <>
-            <h2 className='my-2 text-lg'>
+            <h2 data-testid='timer' className='my-2 text-lg'>
               Time Left:{' '}
               <span id='timer' className='font-bold'>
                 {timer}

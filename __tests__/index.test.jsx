@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import Home from '../pages/index';
 import '@testing-library/jest-dom';
 import { act } from 'react-dom/test-utils';
+import Home from '../pages/index';
+import Question from '../components/question';
 
 describe('Home', () => {
   it('Renders the header', () => {
@@ -14,21 +15,18 @@ describe('Home', () => {
     expect(heading).toBeInTheDocument();
   });
 
-  it('Clicks the the Play button', async () => {
-    render(<Home />);
-    await act(() => {
-      // events that update the state (act)
-      const addButton = screen.getByTestId('playBtn');
-      try {
-        addButton.click();
-      } catch (error) {}
-      expect(addButton).toBeInTheDocument(); // TODO - Change to lifeline buttons
-    });
-  });
-
-  it('Renders the Play button', async () => {
+  it('Renders the Play button', () => {
     render(<Home />);
     const addButton = screen.getByTestId('playBtn');
     expect(addButton).toBeInTheDocument();
+  });
+
+  it('Timer renders after game have started', async () => {
+    render(<Home />);
+    await act(async () => {
+      const addButton = screen.getByTestId('playBtn');
+      addButton.click();
+    });
+    expect(screen.getByTestId('timer')).toBeInTheDocument();
   });
 });
