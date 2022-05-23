@@ -18,7 +18,7 @@ export async function fetchQuestions() {
     return data.results;
   } catch (err) {
     console.error(response.statusText);
-    console.log('API fetch for Strapi News failed with: ' + err);
+    console.log('API fetch for opentdb API failed with: ' + err);
     return null;
   }
 }

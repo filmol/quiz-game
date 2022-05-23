@@ -20,7 +20,7 @@ export default function Home() {
   const [play, setPlay] = useState<boolean>(false);
   const [showSummary, setshowSummary] = useState<boolean>(false);
   const [questionIndex, setQuestionIndex] = useState<number>(0);
-  const [questions, setQuestions] = useState<QuestionObject | null>(null);
+  const [questions, setQuestions] = useState<QuestionObject[] | null>(null);
   const [timer, setTimer] = useState<number>(15);
   const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [totalScore, setTotalScore] = useState<ScoreObject>({
@@ -29,13 +29,18 @@ export default function Home() {
     unanswered: 0,
   });
 
-  const resetTimer = () => {
+  function handleSubmit(result: boolean): void {
+    // Update totalScore and triggers nextQuestion
+    nextQuestion();
+  }
+
+  function resetTimer(): void {
     clearInterval(timerRef.current);
     setTimer(15);
     startTimer();
-  };
+  }
 
-  function startTimer() {
+  function startTimer(): void {
     timerRef.current = setInterval(() => {
       setTimer((time) => time - 1);
     }, 1000);
@@ -43,6 +48,8 @@ export default function Home() {
 
   useEffect(() => {
     if (timer === 0) {
+      // If question not answered within time limit
+      // Add to "unanswered" score and trigger nextQuestion
       nextQuestion();
       setTotalScore((prevState) => ({
         ...prevState,
@@ -51,14 +58,15 @@ export default function Home() {
     }
   }, [timer]);
 
-  function startGame() {
+  function startGame(): void {
     async function getQuestions() {
+      // Fetch 10 random questions from the API
       let res = await fetchQuestions();
       setQuestions(res);
-      console.log(questions);
     }
 
     getQuestions().then(() => {
+      // Display game layout, start timer and reset total score to 0
       setPlay(true);
       startTimer();
       setTotalScore({
@@ -69,12 +77,13 @@ export default function Home() {
     });
   }
 
-  function nextQuestion() {
+  function nextQuestion(): void {
     if (questionIndex < 9) {
+      // Reset timer and trigger next question
       resetTimer();
       setQuestionIndex((questionIndex) => questionIndex + 1);
     } else {
-      // Reset game and display summary
+      // Reset game and display result
       setPlay(false);
       clearInterval(timerRef.current);
       setQuestionIndex(0);
@@ -98,14 +107,12 @@ export default function Home() {
                 {timer}
               </span>
             </h2>
-            {questions
-              ? // TODO -Display each individual question and corresponding options
-                // <Question
-                //   handleSubmit={handleSubmit}
-                //   question={questions[questionIndex]}
-                // />
-                null
-              : null}
+            {questions ? (
+              <Question
+                handleSubmit={handleSubmit}
+                question={questions[questionIndex]}
+              />
+            ) : null}
           </>
         ) : (
           <div className='content-center mt-24'>
