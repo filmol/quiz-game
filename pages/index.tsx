@@ -72,9 +72,13 @@ export default function Home() {
   function nextQuestion() {
     if (questionIndex < 9) {
       resetTimer();
-      // setQuestionIndex((questionIndex) => questionIndex + 1);
+      setQuestionIndex((questionIndex) => questionIndex + 1);
     } else {
       // Reset game and display summary
+      setPlay(false);
+      clearInterval(timerRef.current);
+      setQuestionIndex(0);
+      setshowSummary(true);
     }
   }
 
