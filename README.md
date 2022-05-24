@@ -1,35 +1,45 @@
-This is a A small single page quiz application created with
-[Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Quiz App
 
-## Getting Started
+A Trivia Quiz application created in <strong>Next.JS with <strong>TypeScript</strong> and <strong>Tailwind CSS</strong>.<br>
+Unit tests provided through the <strong>Jest</strong> test framwork. <br>
 
-First, run the development server:
+The goal is to answer all of the 10 questions correctly.<br>
+The player has 15 seconds to answer each question. When the time is up for a question, the question is considered unanswered.<br>
+The player has two lifelines, one called “50/50” that removes two incorrect answers, and one called “+10 s” that gives the player ten extra seconds for the current question. Each lifeline can only be used once during a game.
 
-```bash
-npm run dev
-# or
-yarn dev
+## Installation
+
+Use the package manager <strong>npm</strong> to run Quiz App
+
+```javascript
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Dev environment:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```javascript
+npm run dev
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Production environment:
 
-## Learn More
+```javascript
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Test command:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```javascript
+npm run test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Pull requests are welcome.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[MIT](https://choosealicense.com/licenses/mit/)
