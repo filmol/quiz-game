@@ -50,7 +50,7 @@ export default function Question(props: QuestionProps) {
 
         <div className='space-y-4' data-testid='optionsContainer'>
           {options &&
-            options.map((option: any, idx: number) => {
+            options.map((option: string, idx: number) => {
               return (
                 <button
                   key={option}

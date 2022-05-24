@@ -1,3 +1,5 @@
+import { APIResponse } from '../interfaces/main';
+
 /**
  * A GET requests to opentdb API endpoint
  * @returns Parsed API call response OR null if failed
@@ -5,7 +7,6 @@
 export async function fetchQuestions() {
   const response = await fetch(
     'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple&encode=base64'
-    //  `https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple`
   );
 
   // Handle opentdb API response
@@ -14,8 +15,7 @@ export async function fetchQuestions() {
     throw new Error(`An error occured please try again`);
   }
   try {
-    const data: any = await response.json();
-    console.log(data.results);
+    const data: APIResponse = await response.json();
     return data.results;
   } catch (err) {
     console.error(response.statusText);

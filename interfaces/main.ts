@@ -11,13 +11,15 @@ export interface QuestionObject {
   question: string;
   type: string;
 }
-
 export interface QuestionProps {
   handleSubmit(result: string): void;
   question: QuestionObject;
   addTime(): void;
 }
-
+export interface APIResponse {
+  response_code: number;
+  results: QuestionObject[];
+}
 export interface ReducerAction {
   type: string;
 }

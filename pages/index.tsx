@@ -62,7 +62,7 @@ export default function Home() {
     getQuestions().then(() => {
       // Display game layout, start timer and reset total score to 0
       setPlay(true);
-      startTimer();
+      resetTimer();
       dispatch({ type: 'reset' });
     });
   }
