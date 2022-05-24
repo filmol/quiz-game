@@ -4,7 +4,8 @@
  */
 export async function fetchQuestions() {
   const response = await fetch(
-    `https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple`
+    'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple&encode=base64'
+    //  `https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple`
   );
 
   // Handle opentdb API response

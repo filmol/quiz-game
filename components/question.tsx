@@ -7,7 +7,7 @@ export default function Question(props: QuestionProps) {
   let incorrect = props.question ? props.question.incorrect_answers : [''];
 
   useEffect(() => {
-    props.question ? setQuestion(props.question.question) : null;
+    props.question ? setQuestion(decode64(props.question.question)) : null;
     mergeArray();
   }, [props.question]);
 
@@ -63,7 +63,7 @@ export default function Question(props: QuestionProps) {
                   }
                   className='rounded-md my-4 mx-auto block form-check-label min-w-[200px] text-gray-100 hover:font-bold hover:text-gray-800 hover:shadow-2xl  py-4 px-4 bg-gray-800 hover:scale-105 hover:bg-gray-400 cursor-pointer duration-150'
                 >
-                  {option}
+                  {decode64(option)}
                 </button>
               );
             })}
@@ -90,4 +90,8 @@ export default function Question(props: QuestionProps) {
       </div>
     </div>
   );
+}
+
+function decode64(str: string): string {
+  return decodeURIComponent(escape(window.atob(str)));
 }
